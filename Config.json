@@ -1,0 +1,14 @@
+{
+  "WebPort": 8889, 
+  "Forward": [
+    {
+      "ServerAgreement": "SSL",
+      "ServerPort": 6688, 
+      "ClientAgreement": "SSL", 
+      "ClientPort": 5555, 
+      "ClientIp": "asia2.ethermine.org", 
+      "IsPureForwarding": false,
+      "CertificateUrl": null
+    }
+  ]
+}

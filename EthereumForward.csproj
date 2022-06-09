@@ -6,4 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties config_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
 </Project>

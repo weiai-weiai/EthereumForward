@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EthereumForward.JSON;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -10,14 +12,14 @@ namespace EthereumForward.TCP
     internal class ServiceMessageProcessing
     {
         Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        SocketClient client = new SocketClient();
+        SocketClient client = null;
         Thread thread;
         /// <summary>
         /// 处理Socket信息
         /// </summary>
-        /// <param name="obj">新建连接创建新Socket对象</param>
-        public void ProcessSocket(Socket server)
+        public void ProcessSocket(Socket server, ForwardItem forward)
         {
+            client = new SocketClient(forward.ClientPort, forward.ClientIp);
             client.Start();
             client.srverClose = new SocketClient.SrverCloseDelegate(Close);
             client.srverSend = new SocketClient.SrverSendDelegate(Send);

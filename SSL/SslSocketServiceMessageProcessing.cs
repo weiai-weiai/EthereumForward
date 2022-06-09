@@ -15,7 +15,7 @@ namespace EthereumForward.SSL
     internal class SslSocketServiceMessageProcessing
     {
         SslStream sslStream;
-        SocketClient client1;
+        SslSocketClient client1;
         TcpClient client;
         /// <summary>
         /// 验证证书
@@ -29,9 +29,9 @@ namespace EthereumForward.SSL
             {
                 sslStream.AuthenticateAsServer(serverCertificate, false, SslProtocols.Tls12, true);
                 this.client = client;
-                client1 = new SocketClient();
-                client1.srverClose = new SocketClient.SrverCloseDelegate(Close);
-                client1.srverSend = new SocketClient.SrverSendDelegate(Send);
+                client1 = new SslSocketClient();
+                client1.srverClose = new SslSocketClient.SrverCloseDelegate(Close);
+                client1.srverSend = new SslSocketClient.SrverSendDelegate(Send);
                 client1.Start();
                 Thread thread = new Thread(Read);
                 thread.Start();
@@ -108,7 +108,9 @@ namespace EthereumForward.SSL
         void Close()
         {
             sslStream.Close();
+            sslStream.Dispose();
             client.Close();
+            client.Dispose();
         }
 
     }

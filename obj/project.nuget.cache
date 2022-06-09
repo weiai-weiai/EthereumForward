@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "K6RGfcpOtG9PHxcIkNJE4wMArVP2onoqcTyvNejb/RM7S9g/oqCDSUmFWXgnEABK0V2S2NEgi5qM1cpHHSzb2g==",
+  "dgSpecHash": "fribARzW2mQUC9VLQz194kZSyKPS0KjA3bkI6c5+KFqnjp3p150HDqV9UnFcy3f2+lW4cce3BQ1aOvCvY//RWA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\31506\\Source\\Repos\\weiai-weiai\\EthereumForward\\EthereumForward.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\31506\\source\\repos\\weiai-weiai\\EthereumForward\\EthereumForward.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\31506\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -9,21 +9,29 @@ using System.Threading.Tasks;
 
 namespace EthereumForward.TCP
 {
-    internal class SocketClient
+    public class SocketClient
     {
         public delegate void SrverCloseDelegate();                                                      //关闭服务端SOCKET的委托
-        public SrverCloseDelegate srverClose;                                                           //关闭服务端SOCKET的委托
+        public SrverCloseDelegate srverClose = null;                                                           //关闭服务端SOCKET的委托
         public delegate void SrverSendDelegate(string str );                                            //给客户端发送消息的委托
-        public SrverSendDelegate srverSend;                                                             //给客户端发送消息的委托
+        public SrverSendDelegate srverSend = null;                                                             //给客户端发送消息的委托
         Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);    //socket对象
         Thread thread = null;                                                                           //线程，用于监听消息
+        int port = 0;
+        string domain = "";
+        public SocketClient(int port, string domain) 
+        {
+            this.port = port;
+            this.domain = domain;
+        }
         /// <summary>
         /// 客户端的初始化
         /// </summary>
         public void Start()
         {
-            int port = 4444;
-            IPHostEntry ipHostInfo = Dns.Resolve("asia2.ethermine.org");
+            //这个地方进行DNS解析，不过好像过时了
+            //测试能用管他是不是过时呢
+            IPHostEntry ipHostInfo = Dns.Resolve(domain);
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
             client.Connect(remoteEP);

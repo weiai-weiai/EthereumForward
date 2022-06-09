@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\bin\\Debug",
+    "\\bin\\Release\\net6.0",
+    "\\SSL"
   ],
+  "SelectedNode": "\\EthereumForward.sln",
   "PreviewInSolutionExplorer": false
 }

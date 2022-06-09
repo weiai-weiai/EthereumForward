@@ -24,3 +24,6 @@ C:\Users\31506\Source\Repos\weiai-weiai\EthereumForward\obj\Debug\net6.0\refint\
 C:\Users\31506\Source\Repos\weiai-weiai\EthereumForward\obj\Debug\net6.0\EthereumForward.pdb
 C:\Users\31506\Source\Repos\weiai-weiai\EthereumForward\obj\Debug\net6.0\EthereumForward.genruntimeconfig.cache
 C:\Users\31506\Source\Repos\weiai-weiai\EthereumForward\obj\Debug\net6.0\ref\EthereumForward.dll
+C:\Users\31506\source\repos\weiai-weiai\EthereumForward\bin\Debug\net6.0\Config.json
+C:\Users\31506\source\repos\weiai-weiai\EthereumForward\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\31506\source\repos\weiai-weiai\EthereumForward\obj\Debug\net6.0\EthereumForward.csproj.CopyComplete
