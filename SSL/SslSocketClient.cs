@@ -14,8 +14,14 @@ namespace EthereumForward.SSL
         public delegate void SrverCloseDelegate();                                                      //关闭服务端SOCKET的委托
         public SrverCloseDelegate srverClose;                                                           //关闭服务端SOCKET的委托
         public delegate void SrverSendDelegate(string str);                                             //给客户端发送消息的委托
-        public SrverSendDelegate srverSend;                                                             //给客户端发送消息的委托
-
+        public SrverSendDelegate srverSend;
+        int port = 0;
+        string domain = "";//给客户端发送消息的委托
+        public SslSocketClient(int port, string domain) 
+        {
+            this.port = port;
+            this.domain = domain;
+        }
         /// <summary>
         /// 这个方法是确认证书是否有效，
         /// 注释掉的代码是判断是判断证书是否有效
@@ -34,10 +40,9 @@ namespace EthereumForward.SSL
         SslStream sslStream;
         public void Start()
         {
-            int port = 5555;
             //这个地方进行DNS解析，不过好像过时了
             //测试能用管他是不是过时呢
-            IPHostEntry ipHostInfo = Dns.Resolve("asia2.ethermine.org");
+            IPHostEntry ipHostInfo = Dns.Resolve(domain);
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
             client.Connect(remoteEP);
@@ -47,8 +52,6 @@ namespace EthereumForward.SSL
             thread = new Thread(() => Receive(sslStream));
             thread.Start();
         }
-
-
         /// <summary>
         /// 客户端的发送方法
         /// </summary>
@@ -67,7 +70,6 @@ namespace EthereumForward.SSL
                 srverClose();
             }
         }
-
         public void Receive(SslStream sslStream) 
         {
             try
@@ -110,7 +112,6 @@ namespace EthereumForward.SSL
             while (bytes != 0);
             return messageData.ToString();
         }
-
         /// <summary>
         /// 关闭socket的方法
         /// </summary>

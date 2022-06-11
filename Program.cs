@@ -1,5 +1,6 @@
 using EthereumForward.JSON;
 using EthereumForward.SSL;
+using EthereumForward.TCP;
 using EthereumForward.Utils;
 
 using Newtonsoft.Json;
@@ -27,9 +28,18 @@ ConfigEntity configData = null;
 try
 {
     configData = JsonConvert.DeserializeObject<ConfigEntity>(ReadTxt.ReadTXT(System.IO.Directory.GetCurrentDirectory() + "\\Config.json"));
-    for (int i = 0; i < configData.Forward.Count; i++)
+    foreach (var item in configData.Forward)
     {
-
+        if (item.ServerAgreement.Equals("SSL"))
+        {
+            SslSocketServer sslServer = new SslSocketServer();
+            sslServer.Init(item);
+        }
+        else 
+        {
+            SocketServer tcpServer = new SocketServer();
+            tcpServer.Init(item);
+        }
     }
 }
 catch (Exception ex) 

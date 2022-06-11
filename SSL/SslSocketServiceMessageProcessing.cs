@@ -1,4 +1,5 @@
-﻿using EthereumForward.TCP;
+﻿using EthereumForward.JSON;
+using EthereumForward.TCP;
 
 using System;
 using System.Collections.Generic;
@@ -15,25 +16,27 @@ namespace EthereumForward.SSL
     internal class SslSocketServiceMessageProcessing
     {
         SslStream sslStream;
-        SslSocketClient client1;
-        TcpClient client;
+        TcpClient sslTcpClient;
+        Thread thread;
+        SslSocketClient sslClient;
+        SocketClient Client;
         /// <summary>
         /// 验证证书
         /// </summary>
         /// <param name="client">用户的socket</param>
         /// <param name="serverCertificate">证书对象</param>
-        public void ProcessClient(TcpClient client, X509Certificate serverCertificate)
+        public void ProcessClient(TcpClient client, X509Certificate serverCertificate, ForwardItem forward)
         {
             sslStream = new SslStream(client.GetStream(), false);
             try
             {
                 sslStream.AuthenticateAsServer(serverCertificate, false, SslProtocols.Tls12, true);
-                this.client = client;
-                client1 = new SslSocketClient();
-                client1.srverClose = new SslSocketClient.SrverCloseDelegate(Close);
-                client1.srverSend = new SslSocketClient.SrverSendDelegate(Send);
-                client1.Start();
-                Thread thread = new Thread(Read);
+                this.sslTcpClient = client;
+                sslClient = new SslSocketClient(forward.ClientPort, forward.ClientIp);
+                sslClient.srverClose = new SslSocketClient.SrverCloseDelegate(Close);
+                sslClient.srverSend = new SslSocketClient.SrverSendDelegate(Send);
+                sslClient.Start();
+                thread = new Thread(() => Read(sslStream, sslClient));
                 thread.Start();
             }
             catch (Exception e)
@@ -42,6 +45,19 @@ namespace EthereumForward.SSL
                 Close();
                 return;
             }
+        }
+        /// <summary>
+        /// 开启TCP客户端
+        /// </summary>
+        public void ProcessSocket(TcpClient client, X509Certificate serverCertificate, ForwardItem forward)
+        {
+            Client = new SocketClient(forward.ClientPort, forward.ClientIp);
+            Client.Start();
+            Client.srverClose = new SocketClient.SrverCloseDelegate(Close);
+            Client.srverSend = new SocketClient.SrverSendDelegate(Send);
+            this.sslTcpClient = client;
+            thread = new Thread(() => Read(Client));
+            thread.Start();
         }
         /// <summary>
         /// 给客户端发送消息
@@ -56,14 +72,21 @@ namespace EthereumForward.SSL
             catch (Exception ex)
             {
                 Console.WriteLine("发送给客户端出现错误：" + ex.ToString());
-                throw new Exception(ex.ToString());
+                if (Client != null)
+                {
+                    Client.Close();
+                }
+                if (sslClient != null)
+                {
+                    sslClient.Close();
+                }
+
             }
         }
-
         /// <summary>
-        /// 监听读取数据
+        /// Ssl接收方法
         /// </summary>
-        public void Read()
+        public void Read(SslStream sslStream,SslSocketClient client)
         {
             try
             {
@@ -71,7 +94,7 @@ namespace EthereumForward.SSL
                 {
                     string messageData = ReadMessage(sslStream);
                     Console.WriteLine(messageData);
-                    client1.Send(messageData);
+                    client.Send(messageData);
                 }
             }
             catch (Exception ex) 
@@ -79,6 +102,31 @@ namespace EthereumForward.SSL
                 Console.WriteLine(ex.ToString());
             }
         }
+
+        /// <summary>
+        /// Tcp接收方法
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="client"></param>
+        public void Read(SocketClient client)
+        {
+            try
+            {
+                while (true)
+                {
+                    string messageData = ReadMessage(sslStream);
+                    Console.WriteLine(messageData);
+                    client.Send(messageData);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("服务端接收出现错误：" + ex.ToString());
+                Close();
+                client.Close();
+            }
+        }
+
         /// <summary>
         /// 读取消息并且解密，这个地方代码没读，直接拿过来就用了
         /// </summary>
@@ -109,8 +157,8 @@ namespace EthereumForward.SSL
         {
             sslStream.Close();
             sslStream.Dispose();
-            client.Close();
-            client.Dispose();
+            sslTcpClient.Close();
+            sslTcpClient.Dispose();
         }
 
     }

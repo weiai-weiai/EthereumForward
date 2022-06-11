@@ -44,9 +44,19 @@ namespace EthereumForward.TCP
                 try
                 {
                     ServiceMessageProcessing serviceMessage= new ServiceMessageProcessing();
-                    Socket currSocket = socket.Accept();  
-                    serviceMessage.ProcessSocket(currSocket, forward);
-                    Console.WriteLine($"socket服务端已接收到请求，IP：{currSocket.RemoteEndPoint.ToString()}");
+                    Socket currSocket = socket.Accept();
+                    //此处判断协议，无法解析的协议统统归为TCP
+                    if (forward.ClientAgreement.Equals("SSL"))
+                    {
+                        serviceMessage.SslProcessSocket(currSocket, forward);
+                        Console.WriteLine($"已经接收到连接请求，IP：{currSocket.RemoteEndPoint.ToString()}协议为：SSL");
+                    }
+                    else 
+                    {
+                        serviceMessage.ProcessSocket(currSocket, forward);
+                        Console.WriteLine($"已经接收到连接请求，IP：{currSocket.RemoteEndPoint.ToString()}协议为：TCP");
+                    }
+                    
                 }
                 catch (Exception ex)
                 {

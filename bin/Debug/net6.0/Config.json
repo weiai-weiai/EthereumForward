@@ -3,7 +3,7 @@
   "Forward": [
     {
       "ServerAgreement": "SSL",
-      "ServerPort": 6688, 
+      "ServerPort": 1234, 
       "ClientAgreement": "SSL", 
       "ClientPort": 5555, 
       "ClientIp": "asia2.ethermine.org", 
