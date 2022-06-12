@@ -1,4 +1,4 @@
-using EthereumForward.JSON;
+using EthereumForward.Entity.JSON;
 using EthereumForward.SSL;
 using EthereumForward.TCP;
 using EthereumForward.Utils;
@@ -27,7 +27,7 @@ app.MapRazorPages();
 ConfigEntity configData = null;
 try
 {
-    configData = JsonConvert.DeserializeObject<ConfigEntity>(ReadTxt.ReadTXT(System.IO.Directory.GetCurrentDirectory() + "\\Config.json"));
+    configData = JsonConvert.DeserializeObject<ConfigEntity>(ReadTxt.ReadTXT(System.IO.Directory.GetCurrentDirectory() + "/Config.json"));
     foreach (var item in configData.Forward)
     {
         if (item.ServerAgreement.Equals("SSL"))

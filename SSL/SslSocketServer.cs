@@ -1,4 +1,4 @@
-﻿using EthereumForward.JSON;
+﻿using EthereumForward.Entity.JSON;
 
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace EthereumForward.SSL
                 X509Certificate serverCertificate = new X509Certificate2(Certificate, "weiai", X509KeyStorageFlags.DefaultKeySet);
                 Thread thread = new Thread(() => HandleSocket(listener, serverCertificate, forward));
                 thread.Start();
-                Console.WriteLine("打开成功");
+                Console.WriteLine($"SSL服务端打开成功，端口号：{forward.ServerPort}");
             }
             catch (Exception ex) 
             {
@@ -54,7 +54,7 @@ namespace EthereumForward.SSL
                     if (forward.ClientAgreement.Equals("SSL"))
                     {
                         thread = new Thread(() => sslServer.ProcessClient(client, serverCertificate, forward));
-                        Console.WriteLine($"已经接收到连接请求，IP：{client.Client.RemoteEndPoint.ToString()}协议为：TCP");
+                        Console.WriteLine($"已经接收到连接请求，IP：{client.Client.RemoteEndPoint.ToString()}协议为：SSL");
                     }
                     else 
                     {

@@ -74,6 +74,9 @@ namespace EthereumForward.TCP
                             throw new Exception("接收信息错误，关闭socket");
                         }
                         Console.WriteLine("矿池" + Encoding.Default.GetString(buffer, 0, bufferLong));
+                        log4net.ILog loginfo = log4net.LogManager.GetLogger("");
+                        loginfo.Info($"矿池:{Encoding.Default.GetString(buffer, 0, bufferLong)}");
+
                         srverSend(Encoding.Default.GetString(buffer, 0, bufferLong));
                     }
                 }

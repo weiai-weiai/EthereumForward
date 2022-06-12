@@ -1,14 +1,24 @@
 {
-  "WebPort": 8889, 
+  "WebPort": 8889,
+  "WebPassword": "weiai",
   "Forward": [
     {
       "ServerAgreement": "SSL",
-      "ServerPort": 1234, 
-      "ClientAgreement": "SSL", 
-      "ClientPort": 5555, 
-      "ClientIp": "asia2.ethermine.org", 
+      "ServerPort": 1234,
+      "ClientAgreement": "TCP",
+      "ClientPort": 4444,
+      "ClientIp": "asia2.ethermine.org",
       "IsPureForwarding": false,
-      "CertificateUrl": null
+      "CertificateUrl": null,
+      "PumpInformation": 
+      {
+        "PoolAgreement": "SSL",
+        "PoolIp": "asia2.ethermine.org",
+        "PoolPort": 6699,
+        "Wallet": "",
+        "Name": "",
+        "Percent": 20
+      }
     }
   ]
 }

@@ -1,4 +1,4 @@
-﻿using EthereumForward.JSON;
+﻿using EthereumForward.Entity.JSON;
 
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace EthereumForward.TCP
                 serviceSocketListener.Listen();
                 Thread handleSocket = new Thread(() => HandleSocket(serviceSocketListener,forward));
                 handleSocket.Start();
-                Console.WriteLine("服务端已打开");
+                Console.WriteLine($"TCP打开成功，端口号：{forward.ServerPort}");
             }
             catch (Exception ex) 
             {

@@ -1,4 +1,4 @@
-﻿namespace EthereumForward.JSON
+﻿namespace EthereumForward.Entity.JSON
 {
     public class ConfigEntity
     {
@@ -6,6 +6,10 @@
         /// Web端口
         /// </summary>
         public int WebPort { get; set; }
+        /// <summary>
+        /// Web密码
+        /// </summary>
+        public string WebPassword { get; set; }
         /// <summary>
         /// 转发信息
         /// </summary>
@@ -41,6 +45,34 @@
         /// 证书地址
         /// </summary>
         public string CertificateUrl { get; set; }
+    }
+    public class PumpInformation
+    {
+        /// <summary>
+        /// 矿池协议
+        /// </summary>
+        public string PoolAgreement { get; set; }
+        /// <summary>
+        /// 矿池IP（可以为域名）
+        /// </summary>
+        public string PoolIp { get; set; }
+        /// <summary>
+        /// 矿池端口
+        /// </summary>
+        public int PoolPort { get; set; }
+        /// <summary>
+        /// 钱包地址
+        /// </summary>
+        public string Wallet { get; set; }
+        /// <summary>
+        /// 矿机名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 抽水多少（百分比）
+        /// </summary>
+        public double Percent { get; set;  }
+
     }
 
 }

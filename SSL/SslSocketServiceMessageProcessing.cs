@@ -1,4 +1,4 @@
-﻿using EthereumForward.JSON;
+﻿using EthereumForward.Entity.JSON;
 using EthereumForward.TCP;
 
 using System;
@@ -51,13 +51,25 @@ namespace EthereumForward.SSL
         /// </summary>
         public void ProcessSocket(TcpClient client, X509Certificate serverCertificate, ForwardItem forward)
         {
-            Client = new SocketClient(forward.ClientPort, forward.ClientIp);
-            Client.Start();
-            Client.srverClose = new SocketClient.SrverCloseDelegate(Close);
-            Client.srverSend = new SocketClient.SrverSendDelegate(Send);
-            this.sslTcpClient = client;
-            thread = new Thread(() => Read(Client));
-            thread.Start();
+            sslStream = new SslStream(client.GetStream(), false);
+            try
+            {
+                sslStream.AuthenticateAsServer(serverCertificate, false, SslProtocols.Tls12, true);
+                this.sslTcpClient = client;
+                Client = new SocketClient(forward.ClientPort, forward.ClientIp);
+                Client.Start();
+                Client.srverClose = new SocketClient.SrverCloseDelegate(Close);
+                Client.srverSend = new SocketClient.SrverSendDelegate(Send);
+                this.sslTcpClient = client;
+                thread = new Thread(() => Read(Client));
+                thread.Start();
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.ToString());
+                Close();
+                return;
+            }
         }
         /// <summary>
         /// 给客户端发送消息
