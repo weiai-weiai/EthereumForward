@@ -8,10 +8,11 @@
       "ClientAgreement": "SSL",
       "ClientPort": 5555,
       "ClientIp": "asia2.ethermine.org",
-      "IsPureForwarding": false,
+      "Currency": "",
       "CertificateUrl": null,
-      "PumpInformation": 
-      {
+      "IsUnifiedWallet": true,
+      "Wallet": null,
+      "PumpInformation": {
         "PoolAgreement": "SSL",
         "PoolIp": "asia2.ethermine.org",
         "PoolPort": 6699,

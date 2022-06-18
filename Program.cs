@@ -24,6 +24,9 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+LogoOutput.Output();
+
 ConfigEntity configData = null;
 try
 {

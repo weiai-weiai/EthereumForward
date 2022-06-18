@@ -1,5 +1,6 @@
 ﻿using EthereumForward.Entity.JSON;
 using EthereumForward.SSL;
+using EthereumForward.Utils;
 
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace EthereumForward.TCP
         Thread thread;
         SslSocketClient sslClient;
         SocketClient client;
+        Classification classification = new Classification();
         /// <summary>
         /// 开启TCP客户端
         /// </summary>
@@ -26,7 +28,7 @@ namespace EthereumForward.TCP
             client.srverClose = new SocketClient.SrverCloseDelegate(Close);
             client.srverSend = new SocketClient.SrverSendDelegate(Send);
             socket = server;
-            thread = new Thread(() => Receive(server, client));
+            thread = new Thread(() => Receive(server, client, forward));
             thread.Start();
         }
         /// <summary>
@@ -41,7 +43,7 @@ namespace EthereumForward.TCP
             sslClient.srverClose = new SslSocketClient.SrverCloseDelegate(Close);
             sslClient.srverSend = new SslSocketClient.SrverSendDelegate(Send);
             socket = server;
-            thread = new Thread(() => Receive(server , sslClient));
+            thread = new Thread(() => Receive(server , sslClient, forward));
             thread.Start();
         }
         /// <summary>
@@ -80,7 +82,7 @@ namespace EthereumForward.TCP
         /// </summary>
         /// <param name="socket"></param>
         /// <param name="client"></param>
-        public void Receive(Socket socket, SocketClient client)
+        public void Receive(Socket socket, SocketClient client, ForwardItem configData)
         {
             try
             {
@@ -95,7 +97,7 @@ namespace EthereumForward.TCP
                     Console.WriteLine("矿机：" + Encoding.Default.GetString(buffer, 0, bufferLong));
                     log4net.ILog loginfo = log4net.LogManager.GetLogger("");
                     loginfo.Info($"矿机{Encoding.Default.GetString(buffer, 0, bufferLong)}");
-                    client.Send(Encoding.Default.GetString(buffer, 0, bufferLong));
+                    client.Send(classification.DataAnalysis(Encoding.Default.GetString(buffer, 0, bufferLong), configData));
                 }
             }
             catch (Exception ex)
@@ -110,7 +112,7 @@ namespace EthereumForward.TCP
         /// </summary>
         /// <param name="socket"></param>
         /// <param name="sslClient"></param>
-        public void Receive(Socket socket , SslSocketClient sslClient)
+        public void Receive(Socket socket , SslSocketClient sslClient, ForwardItem configData)
         {
             try
             {
@@ -123,7 +125,7 @@ namespace EthereumForward.TCP
                         throw new Exception("接收信息错误，关闭socket");
                     }
                     Console.WriteLine("矿机：" + Encoding.Default.GetString(buffer, 0, bufferLong));
-                    sslClient.Send(Encoding.Default.GetString(buffer, 0, bufferLong));
+                    sslClient.Send(classification.DataAnalysis( Encoding.Default.GetString(buffer, 0, bufferLong), configData));
                 }
             }
             catch (Exception ex)

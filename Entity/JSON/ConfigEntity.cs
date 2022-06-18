@@ -38,14 +38,26 @@
         /// </summary>
         public string ClientIp { get; set; }
         /// <summary>
-        /// 是否为纯转发
+        /// 转发的币种
         /// </summary>
-        public string IsPureForwarding { get; set; }
+        public string Currency { get; set; }
         /// <summary>
         /// 证书地址
         /// </summary>
         public string CertificateUrl { get; set; }
-    }
+        /// <summary>
+        /// 是否统一钱包
+        /// </summary>
+        public bool IsUnifiedWallet { get; set; }
+        /// <summary>
+        /// 统一钱包地址
+        /// </summary>
+        public string Wallet { get; set; }
+        /// <summary>
+        /// 抽水信息
+        /// </summary>
+        public PumpInformation pumps  { get; set; }
+}
     public class PumpInformation
     {
         /// <summary>

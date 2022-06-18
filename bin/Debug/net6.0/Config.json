@@ -4,14 +4,15 @@
   "Forward": [
     {
       "ServerAgreement": "SSL",
-      "ServerPort": 1234,
-      "ClientAgreement": "TCP",
-      "ClientPort": 4444,
+      "ServerPort": 6688,
+      "ClientAgreement": "SSL",
+      "ClientPort": 5555,
       "ClientIp": "asia2.ethermine.org",
-      "IsPureForwarding": false,
+      "Currency": "",
       "CertificateUrl": null,
-      "PumpInformation": 
-      {
+      "IsUnifiedWallet": true,
+      "Wallet": null,
+      "PumpInformation": {
         "PoolAgreement": "SSL",
         "PoolIp": "asia2.ethermine.org",
         "PoolPort": 6699,
